@@ -1,9 +1,6 @@
 import mysql from 'mysql2/promise';
 
-export async function GET(req) {
-  const url = new URL(req.url);
-  const id = url.searchParams.get('id');
-
+export async function GET() {
   const connection = await mysql.createConnection({
     host: process.env.DB_HOST,
     user: process.env.DB_USER,
@@ -11,13 +8,14 @@ export async function GET(req) {
     database: process.env.DB_NAME,
   });
 
-  const [rows] = await connection.execute('SELECT * FROM numeros WHERE id = ?', [id]);
+  const [rows] = await connection.execute('SELECT * FROM numeros WHERE id BETWEEN 0 AND 10 ORDER BY id ASC');
   await connection.end();
 
-  if (rows.length === 0) {
-    return Response.json({ numero: 0, texto: "No encontrado" });
-  }
+  // Mapea filas a array de objetos { id, texto }
+  const numeros = rows.map(row => ({
+    id: row.id,
+    texto: row.texto,
+  }));
 
-  const data = rows[0];
-  return Response.json({ numero: data.id, texto: data.texto });
+  return Response.json({ numeros });
 }

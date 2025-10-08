@@ -7,7 +7,7 @@ export async function GET() {
   try {
     const res = await fetch(`https://api.github.com/repos/${repo}/releases/latest`, {
       headers: {
-        Authorization: `Bearer ${token}`,
+        Authorization: `token ${token}`,
         Accept: "application/vnd.github+json",
       },
     });

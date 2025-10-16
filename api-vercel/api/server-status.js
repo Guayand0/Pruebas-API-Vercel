@@ -18,7 +18,7 @@ export default async function handler(req, res) {
     if (rows.length === 0) {
       return res.status(200).json({
         online: false,
-        message: "⚠️ No se encontró el registro del servidor.",
+        message: "Server record not found ⚠️",
       });
     }
 
@@ -29,29 +29,29 @@ export default async function handler(req, res) {
       case 1:
         return res.status(200).json({
           online: true,
-          mode: "abierto",
-          message: "Servidor en línea ✅",
+          mode: "open",
+          message: "Server online ✅",
         });
 
       case 0:
         return res.status(200).json({
           online: false,
-          mode: "mantenimiento",
-          message: "Servidor en mantenimiento 🛠️",
+          mode: "maintenance",
+          message: "Server under maintenance 🛠️",
         });
 
       case -1:
         return res.status(200).json({
           online: false,
-          mode: "cerrado",
-          message: "Servidor cerrado 🔒",
+          mode: "closed",
+          message: "Server closed 🔒",
         });
 
       default:
         return res.status(200).json({
           online: false,
-          mode: "desconocido",
-          message: "⚠️ Estado de servidor no reconocido.",
+          mode: "unknown",
+          message: "Unknown server state ⚠️",
         });
     }
 
@@ -60,7 +60,7 @@ export default async function handler(req, res) {
     res.status(500).json({
       online: false,
       mode: "error",
-      message: "❌ Error al conectar con la base de datos.",
+      message: "Database connection error ❌",
     });
   }
 }
